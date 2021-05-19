@@ -3,6 +3,8 @@
 
 Sample Commands, Please run the corresponding 'help' command for options.
 
+An executable jar can be found inside bin folder.
+
 ###  RSA Commands
     Command Help:
     java -jar common-crypto.jar rsa help
@@ -40,6 +42,9 @@ Sample Commands, Please run the corresponding 'help' command for options.
     - Generate AES key:
     openssl rand 32 > aes-key.key
 
-    - Convert RSA private key from PEM to PKCS#8 format:
+    - Convert RSA private key from PEM to DER/PKCS#8 format:
     openssl pkcs8 -topk8 -inform PEM -outform DER -in private-key.pem -out private-key.der -nocrypt
+    
+    - Convert RSA private key from DER/PKCS#8 to PEM format:
+    openssl rsa -inform DER -outform PEM -in private-key.der -out private-key.pem
 

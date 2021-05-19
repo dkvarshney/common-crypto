@@ -80,17 +80,17 @@ public final class RsaHelper {
             byte[] randomAESKey = AesHelper.generateAes(32 * 8).getEncoded();
             
             AsymmetricRSAPublicKey rsaPublicKey = new AsymmetricRSAPublicKey(FipsRSA.ALGORITHM, wrappingKey.getModulus(), wrappingKey.getPublicExponent());
-            org.bouncycastle.crypto.fips.FipsRSA.WrapParameters wrapParameters = FipsRSA.WRAP_OAEP.withDigest(FipsSHS.Algorithm.SHA256);
-            org.bouncycastle.crypto.fips.FipsRSA.KeyWrapOperatorFactory rsaAesEncrypter = new org.bouncycastle.crypto.fips.FipsRSA.KeyWrapOperatorFactory();
-            
-            FipsKeyWrapperUsingSecureRandom<WrapParameters> keyWrapper = (FipsKeyWrapperUsingSecureRandom)rsaAesEncrypter.createKeyWrapper(
-                    rsaPublicKey, wrapParameters).withSecureRandom(SecureRandom.getInstanceStrong());
-            byte[] wrappedAESKeyBytes = keyWrapper.wrap(randomAESKey, 0, randomAESKey.length);
-            
-            SymmetricKey aesWrappingKey = new SymmetricSecretKey(FipsAES.ALGORITHM, randomAESKey);
-            org.bouncycastle.crypto.fips.FipsAES.KeyWrapOperatorFactory aesKeyOperatorFactory = new org.bouncycastle.crypto.fips.FipsAES.KeyWrapOperatorFactory();
-            KeyWrapper<FipsAES.WrapParameters> wrapper = aesKeyOperatorFactory.createKeyWrapper(aesWrappingKey, FipsAES.KWP);
-            byte[] wrappedKey = wrapper.wrap(keyToWrap, 0, keyToWrap.length);
+			org.bouncycastle.crypto.fips.FipsRSA.WrapParameters wrapParameters = FipsRSA.WRAP_OAEP.withDigest(FipsSHS.Algorithm.SHA256);
+			org.bouncycastle.crypto.fips.FipsRSA.KeyWrapOperatorFactory rsaAesEncrypter = new org.bouncycastle.crypto.fips.FipsRSA.KeyWrapOperatorFactory();            			
+
+			FipsKeyWrapperUsingSecureRandom<WrapParameters> keyWrapper = (FipsKeyWrapperUsingSecureRandom)rsaAesEncrypter.createKeyWrapper(
+					rsaPublicKey, wrapParameters).withSecureRandom(SecureRandom.getInstanceStrong());
+			byte[] wrappedAESKeyBytes = keyWrapper.wrap(randomAESKey, 0, randomAESKey.length);
+
+			SymmetricKey aesWrappingKey = new SymmetricSecretKey(FipsAES.ALGORITHM, randomAESKey);
+			org.bouncycastle.crypto.fips.FipsAES.KeyWrapOperatorFactory aesKeyOperatorFactory = new org.bouncycastle.crypto.fips.FipsAES.KeyWrapOperatorFactory();
+			KeyWrapper<FipsAES.WrapParameters> wrapper = aesKeyOperatorFactory.createKeyWrapper(aesWrappingKey, FipsAES.KWP);
+			byte[] wrappedKey = wrapper.wrap(keyToWrap, 0, keyToWrap.length);
             
             return org.bouncycastle.util.Arrays.concatenate(wrappedAESKeyBytes, wrappedKey);
         } catch (Exception e) {
