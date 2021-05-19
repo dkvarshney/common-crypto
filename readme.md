@@ -1,9 +1,8 @@
 ## Common Crypto
 - Basic crypto CLI
+- An executable jar can be found https://github.com/dkvarshney/common-crypto/tree/master/bin
 
 Sample Commands, Please run the corresponding 'help' command for options.
-
-An executable jar can be found inside bin folder.
 
 ###  RSA Commands
     Command Help:
